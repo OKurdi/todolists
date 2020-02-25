@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{%load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Lists</title>
+    <link  rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+<body class="body" >
+    <h1  class="header">ToDo Lists</h1>
+    <h1  class="header">Log in</h1>
+    <form class ="site-form" action="{%url 'polls:login'%}" method="POST">{%csrf_token%}
+        <table width="100% ">
+            <tr>
+                <td width="10%"><label>User Name:</label> </td>
+                <td >{{form.username}}</td>
+            </tr>
+            <tr>
+                <td width="10%"><label>Password:</label> </td>
+                <td>{{form.password}}</td>
+            </tr>
+        </table>
+        <table>
+             <tr>
+                 <td><input type="submit" value="login" ></td>
+             </tr>
+            <tr>
+                <td><label >don't have an account yet?</label></td>
+                <td><a href="{% url 'polls:signup' %}">Sign Up now!</a></td>
+             </tr>
+         </table>
+    </form>
+</body>
+</html>

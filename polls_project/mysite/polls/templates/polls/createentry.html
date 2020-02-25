@@ -1,0 +1,13 @@
+{%extends 'polls/base.html'%}
+
+{%block content%}
+<h1 class="header">Add an Entry</h1>
+<form class ="site-form" action="{%url 'polls:createentry' %}" method="POST">{% csrf_token %}
+    <label id="p">Task:</label><BR>
+    <input type="text" name="task" id="" value=""><BR>
+    <label id="e">description</label><BR>
+    <textarea type="text" name="description" value=""></textarea><BR>
+    <input hidden name="list_id" value={{list_id}}>
+    <BR><input type="submit" value="Create Now">
+</form>
+{%endblock%}

@@ -1,0 +1,33 @@
+{%extends 'polls/base.html'%}
+
+{%block content%}
+<h1 class="header">Shared Todo Lists</h1>
+ <form action="{% url 'polls:entries' %}" method="GET">{% csrf_token %}
+     {% if todo_lists %}
+     <table class="customers">
+         <thead>
+             <tr>
+                 <td width="30px"></td>
+                 <td width="30px">list id</td>
+                 <td width="70px">list name</td>
+                 <td width="150px">Owner</td>
+             </tr>
+         </thead>
+         {% for list in todo_lists %}
+            <tr >
+                <td width="30px"> <input type="radio" name="list_id" id="list{{ forloop.counter }}" value="{{ list.id }}"></td>
+                <td width="30px">{{list.id}}</td>
+                <td width="70px">{{list.get_todolist.name}}</td>
+                <td width="150px">{{list.get_owner.email}}</td>
+                <span ></span>
+            </tr>
+         {% endfor %}
+     </table><BR>
+     {% endif %}
+     <table>
+         <tr>
+             <td><input type="submit" value="View Tasks"></td>
+         </tr>
+     </table>
+  </form>
+{%endblock%}

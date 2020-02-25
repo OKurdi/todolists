@@ -1,0 +1,10 @@
+{%extends 'polls/base.html'%}
+
+{%block content%}
+<h1  class="header">Log in</h1>
+<form class ="site-form" action="{%url 'polls:login'%}" method="GET">
+    {%csrf_token%}
+    <input type="submit" value="login" >
+    <input type="submit" value="sign-up now!" formaction="{% url 'polls:signup' %}">
+    </form>
+{%endblock%}

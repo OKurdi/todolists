@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{%load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Todo Lists</title>
+        <link  rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    </head>
+    <body class="body" >
+        <h1 class="header">Signup</h1>
+        <form class ="site-form" action="{%url 'polls:signup'%}" method="POST">{%csrf_token%}
+            <table width="100%">
+                <tr>
+                    <td width="10%"><label id="p">Full Name:</label></td>
+                    <td><input type="text" name="full_name" id="" value=""></td>
+                </tr>
+                <tr>
+                    <td><label>Age:</label></td>
+                    <td><input type="text" name="age" id="age" value=""><BR></td>
+                </tr>
+                <tr>
+                    <td><label>Phone:</label></td>
+                    <td><input type="phone" name="phone" id="phone" value=""></td>
+                </tr>
+                <tr>
+                    <td align="top"><label margin="top">Bio:</label></td>
+                    <td><textarea id="bio" name="bio"></textarea><BR><BR><BR></td>
+                </tr>
+                <tr>
+                    <td><label>E-mail:</label></td>
+                    <td><input type="email" name="email" id="email" value=""></td>
+                </tr>
+                <tr>
+                    <td><label>User Name:</label></td>
+                    <td>{{form.username}}</td>
+                </tr>
+                <tr>
+                    <td><label>password:</label></td>
+                    <td>{{form.password1}}</td>
+                </tr>
+                <tr>
+                    <td><label>Confirm Password:</label></td>
+                    <td>{{form.password2}}</td>
+                </tr>
+            </table>
+            <BR>
+            <table>
+                <tr>
+                    <td><input type="submit" value="signup"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Goto Log-in!" formaction="{% url 'polls:login'%}" formmethod="GET" ></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

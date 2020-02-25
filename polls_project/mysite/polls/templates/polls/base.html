@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{%load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'images/list_icon3.png' type='image/x-icon' %}">
+    <title>Todo Lists</title>
+    <link  rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <script src="{% static 'scripts/main.js'%}"></script>
+</head>
+<body class="body" >
+    <script src="{% static 'scripts/main.js'%}"></script>
+
+    <div class="topnav">
+      <a class="active" href="{% url 'polls:todolists' %}" methods="GET">Home</a>
+      <a href="{% url 'polls:sharedtodolists' %}" methods="GET">Shared Lists</a>
+      <a href="{% url 'polls:mytodolists' %}" methods="GET">My Lists</a>
+      <a href="{% url 'polls:profile' %}" methods="GET">profile</a>
+      <a href="{% url 'polls:logout' %}" methods="GET">logout</a>
+    </div>
+    <br><br>
+    {% if warningmessage %}
+         <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>{{warningmessage}}</strong>
+         </div>
+    {% endif %}
+    {% if message %}
+         <div class="info">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>{{message}}</strong>
+         </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+
+</body>
+</html>

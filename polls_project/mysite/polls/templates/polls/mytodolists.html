@@ -1,0 +1,37 @@
+{%extends 'polls/base.html'%}
+
+{%block content%}
+<h1 class="header">My Todo Lists</h1>
+ <form action="{% url 'polls:entries' %}" method="GET">{% csrf_token %}
+     {% if todo_lists %}
+     <table class="customers">
+         <thead>
+             <tr>
+                 <td width="10px"></td>
+                 <td width="30px">list id</td>
+                 <td width="150px">list name</td>
+             </tr>
+         </thead>
+         {% for list in todo_lists %}
+            <tr >
+                <td width="10px"> <input type="radio" name="list_id" id="list{{ forloop.counter }}" value="{{ list.id }}"></td>
+                <td width="30px">{{list.id}}</td>
+                <td width="60px">{{list.name}}</td>
+                <span ></span>
+            </tr>
+         {% endfor %}
+     </table>
+     <BR>
+     {% endif %}
+     <input hidden  name="pagename" type="text" value="mytodolists">
+     <table>
+         <tr>
+             <td><input type="submit" value="View Tasks"></td>
+             <td><input type="submit" value="Add List" formaction="{% url 'polls:createtodolist' %}"></td>
+             <td><input type="submit" value="Delete List"  formaction="{% url 'polls:mytodolists' %}" formmethod="POST" onclick="return confirm('Are you sure you want to delete this?')"></td>
+             <td><input type="submit" value="Add Member" formaction="{% url 'polls:addmember' %}"></td>
+         </tr>
+         </tr>
+     </table>
+  </form>
+{%endblock%}

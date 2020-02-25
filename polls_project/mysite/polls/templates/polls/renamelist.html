@@ -1,0 +1,18 @@
+{%extends 'polls/base.html'%}
+
+{%block content%}
+    <h1 class="header">Rename List</h1>
+    <form action="{% url 'polls:renamelist' %}" method="POST" >{% csrf_token %}
+        <BR>
+        <label id="p">List New Name:</label><BR>
+        <input type="text" name="list_name" id="" value="{{list_name.name}}"><BR>
+        <input hidden name="list_id" value={{list_id}}>
+
+         <table>
+         <tr>
+             <td><input type="submit" value="Rename"></td>
+         </tr>
+     </table>
+    </form>
+
+{%endblock%}

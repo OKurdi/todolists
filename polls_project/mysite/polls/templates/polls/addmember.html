@@ -1,0 +1,29 @@
+{%extends 'polls/base.html'%}
+
+{%block content%}
+<h1 class="header">Add Member</h1>
+ <form action="{% url 'polls:addmember' %}" method="POST">{% csrf_token %}
+      <table class="customers">
+         <thead>
+             <tr>
+                 <td width="20px"></td>
+                 <td width="30px">id</td>
+                 <td width="50px">User Name</td>
+                 <td width="150px">e-mail</td>
+             </tr>
+         </thead>
+         {% for user in users_list%}
+            <tr >
+                <td width="20px"> <input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"></td>
+                <td width="30px">{{user.id}}</td>
+                <td width="300px">{{user.username}}</td>
+                <td width="60px">{{user.email}}</td>
+                <span ></span>
+            </tr>
+         {% endfor %}
+     </table>
+     <BR>
+     <input hidden name="list_id" value={{list_id}}>
+     <input type="submit" value="Add Member">
+  </form>
+{%endblock%}
