@@ -2,6 +2,8 @@ from django.contrib import admin
 # Register your models here.
 
 from .models import User
+from .models import TodoList
+from .models import Entry
 
 
 class PageUser(admin.ModelAdmin):
@@ -11,3 +13,6 @@ class PageUser(admin.ModelAdmin):
 
 
 admin.site.register(User, PageUser)
+admin.site.register(TodoList)
+admin.site.register(Entry)
+

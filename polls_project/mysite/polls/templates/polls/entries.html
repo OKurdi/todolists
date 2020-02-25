@@ -5,7 +5,7 @@
 <h1 class="header">Entries List</h1>
  <form action="{% url 'polls:entries' %}" method="GET">
      {% csrf_token %}
-     
+
      {% if entries %}
      <table class="customers">
          <thead>
@@ -19,11 +19,12 @@
          </thead>
          {% for entry in entries%}
             <tr >
-                <td width="20px" > <input type="radio"  name="entry" id="entry{{ forloop.counter }}" value="{{ entry.id }}"></td>
+                <td width="20px" > <input type="radio" onclick=activate_entries_buttons()  name="entry" id="entry{{ forloop.counter }}" value="{{ entry.id }}"></td>
                 <td width="30px">{{entry.id}}</td>
                 <td width="200px">{{entry.entry_titel}}</td>
                 <td width="300px">{{entry.description}}</td>
-                <td width="60px" > <input type="checkbox" name="checkboxdone" formaction=" {% url 'polls:entries' %}" formmethod="PUT"></td>
+                <!--mark_entry_done(document.getElementById(this))-->
+                <td width="60px" > <input onchange=mark_entry_done(document.getElementById(this)) id="entry{{forloop.counter}}" type="checkbox" name="checkboxdone" value="{{ entry.id }}" formaction=" {% url 'polls:entries' %}" formmethod="PUT"></td>
             </tr>
          {% endfor %}
      </table>
@@ -33,7 +34,7 @@
          <tr>
              <td><input type="submit" value="Add Task" formaction="{% url 'polls:createentry' %}"></td>
              <td></td>
-             <td><input type="submit" value="Delete Task" formaction="{% url 'polls:entries' %}" formmethod="POST"></td>
+             <td><input id="delete_task" type="submit" value="Delete Task" formaction="{% url 'polls:entries' %}" formmethod="POST" disabled="true"></td>
          </tr>
      </table>
      <input hidden name="list_id" value={{list_id}}>

@@ -30,7 +30,7 @@
              {% for list in todo_lists %}
                 <tr id="example" class="ready" onclick="#example">
                     <span onclick="#example">
-                    <td width="10px"> <input type="radio" name="list_id" id="list{{ forloop.counter }}" value="{{ list.id }}"></td>
+                    <td width="10px"> <input type="radio" onclick=activate_buttons() name="list_id" id="list{{ forloop.counter }}" value="{{ list.id }}"></td>
                     <td width="30px">{{list.id}}</td>
                     <td width="60px">{{list.name}}</td>
                     </span>
@@ -38,19 +38,19 @@
              {% endfor %}
          </table><BR>
      {% endif %}
-    <script src="{% static 'scripts/main.js'%}"></script>
+
      <input hidden name="pagename" type="text" value="todolists">
      <table>
          <tr>
-             <td><input type="submit" value="View Tasks"></td>
+             <td><input id="view_tasks" type="submit" value="View Tasks" disabled="true"></td>
              <td></td>
-             <td><input type="submit" value="Rename List" formaction="{% url 'polls:renamelist' %}"></td>
+             <td><input id="rename_list" type="submit" value="Rename List" disabled="true" formaction="{% url 'polls:renamelist' %}"></td>
              <td></td>
-             <td><input type="submit" value="Add List" formaction="{% url 'polls:createtodolist' %}"></td>
+             <td><input id="add_list" type="submit" value="Add List" formaction="{% url 'polls:createtodolist' %}"></td>
              <td></td>
-             <td><input type="submit" value="Delete List" formaction="{% url 'polls:todolists' %}" formmethod="POST" onclick="return confirm('Are you sure you want to delete this?')" ></td>
+             <td><input id="delete_list" type="submit" value="Delete List" disabled="true" onclick=confirm_delete() formaction="{% url 'polls:todolists' %}" formmethod="POST"></td>
              <td></td>
-             <td><input type="submit" value="Add Member" formaction="{% url 'polls:addmember' %}"></td>
+             <td><input id="add_member" type="submit" value="Add Member" disabled="true" formaction="{% url 'polls:addmember' %}"></td>
          </tr>
      </table>
   </form>

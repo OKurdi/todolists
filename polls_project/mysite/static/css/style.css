@@ -49,10 +49,13 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
     opacity:1;
     transform: scale(1.1);
 }
+input[type=button]:disabled , input[type=submit]:disabled, input[type=reset]:disabled {
+    opacity:0.5;
 
+}
 input[type=button]:disabled:hover , input[type=submit]:disabled:hover, input[type=reset]:disabled:hover {
     opacity:0.5;
-     transform: scale(0.9);
+    transform: scale(0.9);
 
 }
 input[type=button], input[type=submit], input[type=reset] {
