@@ -7,12 +7,12 @@
         <label id="p">List New Name:</label><BR>
         <input type="text" name="list_name" id="" value="{{list_name.name}}"><BR>
         <input hidden name="list_id" value={{list_id}}>
-
-         <table>
-         <tr>
-             <td><input type="submit" value="Rename"></td>
-         </tr>
-     </table>
+        <input hidden name="pagename" value={{pagename}}>
+        <table>
+             <tr>
+                 <td><input type="submit" value="Rename"></td>
+             </tr>
+        </table>
     </form>
 
 {%endblock%}

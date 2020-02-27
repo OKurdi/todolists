@@ -12,7 +12,6 @@
 </head>
 <body class="body" >
     <script src="{% static 'scripts/main.js'%}"></script>
-
     <div class="topnav">
       <a class="active" href="{% url 'polls:todolists' %}" methods="GET">Home</a>
       <a href="{% url 'polls:sharedtodolists' %}" methods="GET">Shared Lists</a>
@@ -20,6 +19,7 @@
       <a href="{% url 'polls:profile' %}" methods="GET">profile</a>
       <a href="{% url 'polls:logout' %}" methods="GET">logout</a>
     </div>
+    <label>Hello {{ user_name }} !</label>
     <br><br>
     {% if warningmessage %}
          <div class="alert">

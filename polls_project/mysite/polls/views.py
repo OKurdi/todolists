@@ -1,6 +1,6 @@
 import django
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -71,10 +71,12 @@ def TodoListView(request):
         # return redirect('polls/todolists.html')
         if len(CombineUserAndSharedLists(request.user.id)) == 0:
             return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                                                            'warningmessage': "You don't have any todo lists!"}, )
+                                                            'warningmessage': "You don't have any todo lists!",
+                                                            'user_name': request.user.username}, )
         else:
             return render(request, 'polls/todolists.html',
-                          {'todo_lists': CombineUserAndSharedLists(request.user.id), }, )
+                          {'todo_lists': CombineUserAndSharedLists(request.user.id),
+                           'user_name': request.user.username}, )
     elif request.method == 'POST':
         # check whether the user is permited to delete the list(checking if the user_id in the list table is the same as the current user_id):
         if UserWithTodoLists.objects.get(todo_list_id=request.POST.get('list_id')).user_id == request.user.id:
@@ -87,20 +89,24 @@ def TodoListView(request):
             Entry.objects.filter(id__in=entries_id).delete()
             TodoListWithEntris.objects.filter(todo_list_id=request.POST.get('list_id')).delete()
             return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                                                            'message': "list has been successfuly deleted."}, )
+                                                            'message': "list has been successfuly deleted.",
+                                                            'user_name': request.user.username}, )
         else:
             return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                                                            'warningmessage': "You are not allowed to delete this list, as you are not the owner of it! please contact your adminstrator for more details!"}, )
+                                                            'warningmessage': "You are not allowed to delete this list, as you are not the owner of it! please contact your adminstrator for more details!",
+                                                            'user_name': request.user.username}, )
 
 
 def ViewMyTodoLists(request):
     if request.method == 'GET':
         my_lists = FilterUserTodoLists(request.user.id)
         if my_lists.count() == 0:
-            return render(request, 'polls/mytodolists.html', {'warningmessage': "You don't have lists!"}, )
+            return render(request, 'polls/mytodolists.html', {'warningmessage': "You don't have lists!",
+                                                              'user_name': request.user.username}, )
         else:
             return render(request, 'polls/mytodolists.html',
-                          {'todo_lists': my_lists, 'message': "Here is your lists:"}, )
+                          {'todo_lists': my_lists, 'message': "Here is your lists:",
+                           'user_name': request.user.username}, )
     elif request.method == 'POST':
         UserWithTodoLists.objects.filter(todo_list_id=request.POST['list_id']).delete()
         TodoList.objects.filter(id=request.POST['list_id']).delete()
@@ -111,7 +117,8 @@ def ViewMyTodoLists(request):
         Entry.objects.filter(id__in=entries_id).delete()
         TodoListWithEntris.objects.filter(todo_list_id=request.POST.get('list_id')).delete()
         return render(request, 'polls/mytodolists.html', {'todo_lists': FilterUserTodoLists(request.user.id),
-                                                          'message': "list has been successfuly deleted."}, )
+                                                          'message': "list has been successfuly deleted.",
+                                                          'user_name': request.user.username}, )
 
 
 def ViewSharedTodoLists(request):
@@ -123,10 +130,12 @@ def ViewSharedTodoLists(request):
         shared_lists = SharedListsWithUsers.objects.filter(user_id=request.user.id)
         if shared_lists.count() == 0:
             return render(request, 'polls/sharedtodolists.html',
-                          {'warningmessage': "You don't have any shared lists!"}, )
+                          {'warningmessage': "You don't have any shared lists!",
+                           'user_name': request.user.username}, )
         else:
             return render(request, 'polls/sharedtodolists.html',
-                          {'todo_lists': shared_lists, 'message': "Here is your shared lists:"}, )
+                          {'todo_lists': shared_lists, 'message': "Here is your shared lists:",
+                           'user_name': request.user.username}, )
 
 
 def CreateTodoList(request):
@@ -139,7 +148,7 @@ def CreateTodoList(request):
             todo_lists = TodoList.objects.filter(id__in=todo_lists_id)
             is_list_name_exist = False
             for list in todo_lists:
-                if list.name == request.POST.get('listName'):
+                if list.name.lower() == request.POST.get('listName').lower():
                     is_list_name_exist = True
             if not is_list_name_exist:
                 new_todo_list = TodoList()
@@ -150,9 +159,11 @@ def CreateTodoList(request):
                 # return HttpResponseRedirect("/polls/todolists", message='List has been created successfuly!')
                 if request.POST.get('pagename') == 'mytodolists':
                     print('reached mytodolists create a new list')
-                    return redirect('http://127.0.0.1:8000/polls/mytodolists', message='List has been created successfuly!')
+                    return redirect('http://127.0.0.1:8000/polls/mytodolists',
+                                    message='List has been created successfuly!')
                 elif request.POST.get('pagename') == 'todolists':
-                    return redirect('http://127.0.0.1:8000/polls/todolists', message='List has been created successfuly!')
+                    return redirect('http://127.0.0.1:8000/polls/todolists',
+                                    message='List has been created successfuly!')
                 '''return render(request, 'polls/todolists.html',
                               {'todo_lists': CombineUserAndSharedLists(request.user.id),
                                'message': 'List has been created successfuly!'}, )
@@ -160,14 +171,17 @@ def CreateTodoList(request):
                 # return redirect('polls:todolists')
             else:
                 return render(request, 'polls/createtodolist.html', {
-                    'warningmessage': 'List Name is already exist, please choose different name or delete duplicated list!'}, )
+                    'warningmessage': 'List Name is already exist, please choose different name or delete duplicated list!',
+                    'user_name': request.user.username}, )
         else:
             return render(request, 'polls/todolists.html',
                           {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                           'warningmessage': "number of lists is 10, please remove unnecessary lists and try again."}, )
+                           'warningmessage': "number of lists is 10, please remove unnecessary lists and try again.",
+                           'user_name': request.user.username}, )
             # return redirect('polls:todolists')
     elif request.method == 'GET':
-        return render(request, 'polls/createtodolist.html', {'pagename': request.GET.get('pagename')})
+        return render(request, 'polls/createtodolist.html', {'pagename': request.GET.get('pagename'),
+                                                             'user_name': request.user.username})
 
 
 def HandelCreationOfNewList(request, NewTodoList):
@@ -184,16 +198,26 @@ def RenameListView(request):
             todo_list = TodoList.objects.get(id=list_id)
             todo_list.name = request.POST.get('list_name')
             todo_list.save()
-            return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                                                            'message': "List has been successfully renamed !."}, )
+            return ReturnFromRenameList(request)
         else:
-            return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                                                            'message': "You don't have permission to rename this list!"}, )
-
+            return ReturnFromRenameList(request)
     elif request.method == 'GET':
         return render(request, 'polls/renamelist.html', {'list_id': request.GET.get('list_id'),
                                                          'list_name': TodoList.objects.get(
-                                                             id=request.GET.get('list_id')), }, )
+                                                             id=request.GET.get('list_id')),
+                                                         'pagename': request.GET.get('pagename'),
+                                                         'user_name': request.user.username}, )
+
+
+def ReturnFromRenameList(request):
+    if request.POST.get('pagename') == 'todolists':
+        return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
+                                                        'message': "List has been successfully renamed !",
+                                                        'user_name': request.user.username}, )
+    elif request.POST.get('pagename') == 'mytodolists':
+        return render(request, 'polls/mytodolists.html', {'todo_lists': FilterUserTodoLists(request.user.id),
+                                                          'message': "List has been successfully renamed !",
+                                                          'user_name': request.user.username}, )
 
 
 def CreateEntry(request):
@@ -257,14 +281,16 @@ def EntriesView(request):
                                              request.GET.get('list_id'))
         else:
             return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                                                            'warningmessage': 'Please select a List to view the tasks!'}, )
+                                                            'warningmessage': 'Please select a List to view the tasks!',
+                                                            'user_name': request.user.username}, )
     elif request.method == 'POST':
         # delete_entry:
         TodoListWithEntris.objects.filter(entry_id=request.POST.get('entry')).delete()
         Entry.objects.filter(id=request.POST.get('entry')).delete()
-        return ReturnEntriesViewResponse(request, FilterEntries(request.POST['list_id']), request.POST.get('list_id'))
+        return ReturnEntriesViewResponse(request, FilterEntries(request.POST.get('list_id')),
+                                         request.POST.get('list_id'))
     elif request.method == 'PUT':
-        checked_entry = Entry.objects.get(id=request.PUT['entry'])
+        checked_entry = Entry.objects.get(id=request.PUT.get('entry'))
         checked_entry.selected = True
         checked_entry.save()
 
@@ -280,10 +306,12 @@ def ReturnEntriesViewResponse(request, entries, list_id):
     if entries.count() == 0:
         return render(request, 'polls/entries.html',
                       {'entries': entries, 'list_id': list_id,
-                       'warningmessage': "You don't have tasks in this list!", }, )
+                       'warningmessage': "You don't have tasks in this list!",
+                       'user_name': request.user.username}, )
     else:
         return render(request, 'polls/entries.html',
-                      {'entries': entries, 'list_id': list_id, 'message': "Here is your tasks:"}, )
+                      {'entries': entries, 'list_id': list_id, 'message': "Here is your tasks:",
+                       'user_name': request.user.username}, )
 
 
 def AddMember(request):
@@ -305,21 +333,25 @@ def AddMember(request):
                 new_shared_lists_with_users.save()
                 return render(request, 'polls/todolists.html',
                               {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                               'message': 'the member can view the list now.', }, )
+                               'message': 'Member can view the list now.',
+                               'user_name': request.user.username}, )
             else:
                 return render(request, 'polls/todolists.html',
                               {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                               'message': 'the member is already has permission to view this list.', }, )
+                               'message': 'Member already has permission to view this list.',
+                               'user_name': request.user.username}, )
         else:
             return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                                                            'message': "You can't add a member to this list, as you are not the owner of it.", }, )
+                                                            'message': "You can't add a member to this list, as you are not the owner of it.",
+                                                            'user_name': request.user.username}, )
 
 
 def ViewProfile(request):
     if request.method == 'GET':
         return render(request, 'polls/profile.html',
                       {'pollsuserinfo': User.objects.get(auth_user_id=request.user.id),
-                       'authuserinfo': request.user, }, )
+                       'authuserinfo': request.user,
+                       'user_name': request.user.username}, )
     elif request.method == 'POST':
         return render(request, 'polls/profile.html')
 
@@ -328,7 +360,8 @@ def EditProfile(request):
     if request.method == 'GET':
         return render(request, 'polls/editprofile.html',
                       {'pollsuserinfo': User.objects.get(auth_user_id=request.user.id),
-                       'authuserinfo': request.user, }, )
+                       'authuserinfo': request.user,
+                       'user_name': request.user.username}, )
     elif request.method == 'POST':
         polls_user = User.objects.get(auth_user_id=request.user.id)
         auth_user = request.user
@@ -344,7 +377,8 @@ def EditProfile(request):
         auth_user.save()
         return render(request, 'polls/profile.html',
                       {'pollsuserinfo': User.objects.get(auth_user_id=request.user.id),
-                       'authuserinfo': request.user, }, )
+                       'authuserinfo': request.user,
+                       'user_name': request.user.username}, )
 
 
 def TargetViewFunction(request):
@@ -354,3 +388,15 @@ def TargetViewFunction(request):
 def IndexView(request):
     if request.method == 'GET':
         return render(request, 'polls/index.html')
+
+
+def EntryStatus(request):
+    print('EntryStatus function has been reached in views')
+    if request.method == 'POST':
+        checked_entry = Entry.objects.get(id=request.POST.get('entry_id'))
+        if checked_entry.selected == True:
+            checked_entry.selected = False
+        else:
+            checked_entry.selected = True
+        checked_entry.save()
+    return JsonResponse()

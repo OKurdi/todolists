@@ -17,7 +17,7 @@
      <BR><BR>
     <form action="{% url 'polls:createtodolist' %}" method="POST" >{% csrf_token %}
         <BR>
-        <input hidden name="pagename" type="text" value="{{pagename}}"
+        <input hidden name="pagename" type="text" value="{{pagename}}">
         <label id="p">List Name:</label><BR>
         <input type="text" name="listName" id="" value=""><BR>
         <input type="submit" value="Create Now!">

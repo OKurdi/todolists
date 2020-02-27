@@ -15,8 +15,8 @@
          </thead>
          {% for list in todo_lists %}
             <tr >
-                <td width="30px"> <input type="radio" name="list_id" id="list{{ forloop.counter }}" value="{{ list.id }}"></td>
-                <td width="30px">{{list.id}}</td>
+                <td width="30px"> <input onclick=activate_view_tasks_button() type="radio" name="list_id" id="list{{ forloop.counter }}" value="{{ list.get_todolist.id }}"></td>
+                <td width="30px">{{list.get_todolist.id}}</td>
                 <td width="70px">{{list.get_todolist.name}}</td>
                 <td width="150px">{{list.get_owner.email}}</td>
                 <span ></span>
@@ -24,9 +24,11 @@
          {% endfor %}
      </table><BR>
      {% endif %}
+     <input hidden name="pagename" type="text" value="sharedtodolists">
+
      <table>
          <tr>
-             <td><input type="submit" value="View Tasks"></td>
+             <td><input id="view_tasks" type="submit" value="View Tasks" disabled="true"></td>
          </tr>
      </table>
   </form>

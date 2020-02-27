@@ -4,7 +4,8 @@ from django.db import models
 
 
 class User(models.Model):
-    auth_user = models.ForeignKey(django.contrib.auth.models.User, on_delete=models.CASCADE, related_name='auth_user_id', null=True, blank=True)
+    auth_user = models.ForeignKey(django.contrib.auth.models.User, on_delete=models.CASCADE,
+                                  related_name='auth_user_id', null=True, blank=True)
     full_name = models.CharField(max_length=50)
     email = models.CharField(max_length=50, unique=True)
     age = models.CharField(max_length=50)
@@ -19,7 +20,7 @@ class User(models.Model):
 class Entry(models.Model):
     entry_titel = models.CharField(max_length=50, blank=True)
     description = models.TextField(max_length=200, blank=True)
-    selected = models.BooleanField(default=False)
+    selected = models.CharField(max_length=50, default=False)
 
 
 class TodoList(models.Model):

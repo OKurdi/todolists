@@ -1,5 +1,5 @@
 {%extends 'polls/base.html'%}
-{% load render_table from django_tables2 %}
+{% load static %}
 
 {%block content%}
 <h1 class="header">Entries List</h1>
@@ -18,13 +18,16 @@
              </tr>
          </thead>
          {% for entry in entries%}
-            <tr >
+            <tr for="entry{{ forloop.counter }}">
                 <td width="20px" > <input type="radio" onclick=activate_entries_buttons()  name="entry" id="entry{{ forloop.counter }}" value="{{ entry.id }}"></td>
-                <td width="30px">{{entry.id}}</td>
-                <td width="200px">{{entry.entry_titel}}</td>
-                <td width="300px">{{entry.description}}</td>
+                <td width="30px" ><label for="entry{{forloop.counter}}">{{entry.id}}</label></td>
+                <td width="200px"><label for="entry{{forloop.counter}}">{{entry.entry_titel}}</label></td>
+                <td width="300px"><label for="entry{{forloop.counter}}">{{entry.description}}</label></td>
                 <!--mark_entry_done(document.getElementById(this))-->
-                <td width="60px" > <input onchange=mark_entry_done(document.getElementById(this)) id="entry{{forloop.counter}}" type="checkbox" name="checkboxdone" value="{{ entry.id }}" formaction=" {% url 'polls:entries' %}" formmethod="PUT"></td>
+                <td width="60px" > <input onchange=mark_entry_done(this.value)
+                                          formaction=" {% url 'polls:entries' %}" formmethod="PUT" id="entry{{forloop.counter}}"
+                                          name="checkboxdone"
+                                          type="checkbox" value="{{ entry.id }}"></td>
             </tr>
          {% endfor %}
      </table>
@@ -34,7 +37,7 @@
          <tr>
              <td><input type="submit" value="Add Task" formaction="{% url 'polls:createentry' %}"></td>
              <td></td>
-             <td><input id="delete_task" type="submit" value="Delete Task" formaction="{% url 'polls:entries' %}" formmethod="POST" disabled="true"></td>
+             <td><input id="delete_task" type="submit" value="Delete Task" onclick=confirm_delete_entry() formaction="{% url 'polls:entries' %}" formmethod="POST" disabled="true"></td>
          </tr>
      </table>
      <input hidden name="list_id" value={{list_id}}>
