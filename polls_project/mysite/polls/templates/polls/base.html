@@ -7,7 +7,10 @@
     <title>Todo Lists</title>
     <link  rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
     <link  rel="script" type="text/javascript" href="{% static 'scripts/main.js' %}"/>
-
+   <script
+           crossorigin="anonymous"
+           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+           src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script  type="text/javascript" src="{% static 'scripts/main.js'%}"></script>
 </head>
 <body class="body" >
@@ -18,8 +21,10 @@
       <a href="{% url 'polls:mytodolists' %}" methods="GET">My Lists</a>
       <a href="{% url 'polls:profile' %}" methods="GET">profile</a>
       <a href="{% url 'polls:logout' %}" methods="GET">logout</a>
+    </div><br>
+    <div align="left">
+        <label class="user_name">Hello {{ user_name }} !</label>
     </div>
-    <label>Hello {{ user_name }} !</label>
     <br><br>
     {% if warningmessage %}
          <div class="alert">

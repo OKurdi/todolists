@@ -211,14 +211,19 @@ def RenameListView(request):
 
 def ReturnFromRenameList(request):
     if request.POST.get('pagename') == 'todolists':
+        return HttpResponseRedirect('/polls/todolists')
+        '''
         return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
                                                         'message': "List has been successfully renamed !",
                                                         'user_name': request.user.username}, )
+        '''
     elif request.POST.get('pagename') == 'mytodolists':
+        return HttpResponseRedirect('/polls/mytodolists')
+        '''
         return render(request, 'polls/mytodolists.html', {'todo_lists': FilterUserTodoLists(request.user.id),
                                                           'message': "List has been successfully renamed !",
                                                           'user_name': request.user.username}, )
-
+        '''
 
 def CreateEntry(request):
     if request.method == 'POST':
@@ -393,10 +398,17 @@ def IndexView(request):
 def EntryStatus(request):
     print('EntryStatus function has been reached in views')
     if request.method == 'POST':
+        data = {'is_valid': False,}
+        entry_id = 4
         checked_entry = Entry.objects.get(id=request.POST.get('entry_id'))
-        if checked_entry.selected == True:
-            checked_entry.selected = False
+        if checked_entry.selected == "True":
+            print('if statement True condition')
+            checked_entry.selected = "False"
         else:
-            checked_entry.selected = True
+            print('if statement False condition')
+
+            checked_entry.selected = "True"
+        print('EntryStatus before saving')
         checked_entry.save()
-    return JsonResponse()
+    print('EntryStatus before returning')
+    return JsonResponse(data,safe=False)

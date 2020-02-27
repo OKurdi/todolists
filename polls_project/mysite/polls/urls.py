@@ -19,6 +19,6 @@ urlpatterns = [
     path('base/', views.logout_view, name='logout'),
     path('renamelist/', views.RenameListView, name='renamelist'),
     path('editprofile/', views.EditProfile, name='editprofile'),
-    path('ajax/entrystatus', views.EntryStatus, name='entrystatus'),
+    path('ajax/entrystatus/', views.EntryStatus, name='entrystatus'),
 
 ]

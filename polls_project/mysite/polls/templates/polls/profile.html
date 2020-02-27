@@ -3,27 +3,6 @@
 {%block content%}
 <h1 class="header">Profile</h1>
  <form action="{% url 'polls:entries' %}" method="GET">{% csrf_token %}
-
-    <!--
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-     <lable class="container">Full Name:</lable>
-     <lable class="container">{{pollsuserinfo.full_name}}</lable><BR>
-     <lable class="container">E-mail:</lable>
-     <lable class="container">{{pollsuserinfo.email}}</lable><BR>
-     <lable class="container">Age:</lable>
-     <lable class="container">{{pollsuserinfo.age}}</lable><BR>
-     <lable class="container">Phone:</lable>
-     <lable class="container">{{pollsuserinfo.phone}}</lable><BR>
-     <lable class="container">Bio:</lable>
-     <lable class="container">{{pollsuserinfo.bio}}</lable><BR>
-     <lable class="container">User Name:</lable>
-     <lable class="container">{{authuserinfo.username}}</lable><BR>
-     <lable class="container">Password:</lable>
-     <lable class="container">{{authuserinfo.password}}</lable><BR>
-
-     <td width="60px">Password</td>
-     <td width="30px">{{authuserinfo.password.}}</td>
-    -->
       <table class="customers">
          <thead>
              <tr>
@@ -38,7 +17,7 @@
              </tr>
          </thead>
             <tr >
-                <td width="20px"> <input type="radio" name="user_id" id="authuserinfo{{ forloop.counter }}" value="{{ authuserinfo.id }}"></td>
+                <td width="20px"><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="authuserinfo{{ forloop.counter }}" value="{{ authuserinfo.id }}"><span class="checkpoint"></span></label></td>
                 <td width="150px">{{pollsuserinfo.full_name}}</td>
                 <td width="250px">{{authuserinfo.email}}</td>
                 <td width="60px">{{authuserinfo.username}}</td>
