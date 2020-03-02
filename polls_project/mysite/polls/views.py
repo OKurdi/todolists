@@ -55,7 +55,12 @@ def login_view(request):
 
             # return render(request, 'polls/todolists.html', {'todo_lists': user_todo_lists}, )
         except:
-            return render(request, 'polls/login.html')
+            # storage = messages.get_messages(request)
+            # storage.used = True
+            messages.error(request, 'username or password not correct')
+            return redirect("/polls/login/")
+            # return HttpResponseRedirect("/polls/login")
+            # return render(request, 'polls/login.html')
     elif request.method == 'GET':
         form = AuthenticationForm()
         return render(request, 'polls/login.html', {'form': form})
@@ -76,7 +81,8 @@ def TodoListView(request):
         else:
             return render(request, 'polls/todolists.html',
                           {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                           'user_name': request.user.username}, )
+                           'user_name': request.user.username,
+                           'message': 'Here is your todo lists: ', }, )
     elif request.method == 'POST':
         # check whether the user is permited to delete the list(checking if the user_id in the list table is the same as the current user_id):
         if UserWithTodoLists.objects.get(todo_list_id=request.POST.get('list_id')).user_id == request.user.id:
@@ -211,19 +217,15 @@ def RenameListView(request):
 
 def ReturnFromRenameList(request):
     if request.POST.get('pagename') == 'todolists':
-        return HttpResponseRedirect('/polls/todolists')
-        '''
         return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
                                                         'message': "List has been successfully renamed !",
                                                         'user_name': request.user.username}, )
-        '''
     elif request.POST.get('pagename') == 'mytodolists':
-        return HttpResponseRedirect('/polls/mytodolists')
-        '''
+
         return render(request, 'polls/mytodolists.html', {'todo_lists': FilterUserTodoLists(request.user.id),
                                                           'message': "List has been successfully renamed !",
                                                           'user_name': request.user.username}, )
-        '''
+
 
 def CreateEntry(request):
     if request.method == 'POST':
@@ -398,7 +400,7 @@ def IndexView(request):
 def EntryStatus(request):
     print('EntryStatus function has been reached in views')
     if request.method == 'POST':
-        data = {'is_valid': False,}
+        data = {'is_valid': False, }
         entry_id = 4
         checked_entry = Entry.objects.get(id=request.POST.get('entry_id'))
         if checked_entry.selected == "True":
@@ -411,4 +413,23 @@ def EntryStatus(request):
         print('EntryStatus before saving')
         checked_entry.save()
     print('EntryStatus before returning')
-    return JsonResponse(data,safe=False)
+    return JsonResponse(data, safe=False)
+
+
+def EditEntry(request):
+    if request.method == 'POST':
+        edited_entry = Entry.objects.get(id=request.POST.get('entry'))
+        edited_entry.entry_titel = request.POST.get('entry_titel')
+        edited_entry.description = request.POST.get('description')
+        edited_entry.save()
+        messages.INFO.
+        return HttpResponseRedirect("/polls/todolists")
+
+        return render(request, 'polls/entries.html',
+                      {'entries': FilterEntries(request.POST.get('list_id')),
+                       'message': 'Changes has been saved !',
+                       'list_id': request.POST.get('list_id'),
+                       'user_name': request.user.username})
+    elif request.method == 'GET':
+        print(request.GET.get('entry'))
+        return render(request, 'polls/editentry.html', {'entry': Entry.objects.get(id=request.GET.get('entry')), 'list_id':request.GET.get('list_id'),'user_name': request.user.username})

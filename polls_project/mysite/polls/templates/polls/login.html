@@ -9,6 +9,12 @@
 <body class="body" >
     <h1  class="header">ToDo Lists</h1>
     <h1  class="header">Log in</h1>
+    {% for message in messages%}
+         <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>{{message}}</strong>
+         </div>
+    {% endfor %}
     <form class ="site-form" action="{%url 'polls:login'%}" method="POST">{%csrf_token%}
         <table width="100% ">
             <tr>

@@ -6,7 +6,6 @@
       <table class="customers">
          <thead>
              <tr>
-                 <td width="20px"></td>
                  <td width="150px">Full Name</td>
                  <td width="250px">E-mail</td>
                  <td width="60px">User Name</td>
@@ -17,7 +16,6 @@
              </tr>
          </thead>
             <tr >
-                <td width="20px"><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="authuserinfo{{ forloop.counter }}" value="{{ authuserinfo.id }}"><span class="checkpoint"></span></label></td>
                 <td width="150px">{{pollsuserinfo.full_name}}</td>
                 <td width="250px">{{authuserinfo.email}}</td>
                 <td width="60px">{{authuserinfo.username}}</td>

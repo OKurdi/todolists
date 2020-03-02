@@ -18,6 +18,7 @@ function activate_view_tasks_button(){
 
 function activate_entries_buttons(){
     document.getElementById("delete_task").disabled = false
+    document.getElementById("edit_task").disabled = false
 }
 
 function mark_entry_done(entry_id) {

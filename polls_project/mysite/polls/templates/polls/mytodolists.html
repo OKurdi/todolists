@@ -13,7 +13,7 @@
              </tr>
          </thead>
          {% for list in todo_lists %}
-            <tr >
+            <tr for="list{{ forloop.counter }}">
                 <td width="10px"><label class="radiobuttoncontainer"><input type="radio" name="list_id" onclick=enable_buttons() id="list{{ forloop.counter }}" value="{{ list.id }}"><span class="checkpoint"></span></label></td>
                 <td width="30px">{{list.id}}</td>
                 <td width="60px">{{list.name}}</td>

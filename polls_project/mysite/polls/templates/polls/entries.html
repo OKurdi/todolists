@@ -47,9 +47,11 @@
      <BR>
      <table>
          <tr>
-             <td><input type="submit" value="Add Task" formaction="{% url 'polls:createentry' %}"></td>
+             <td><input type="submit" value="Add" formaction="{% url 'polls:createentry' %}"></td>
              <td></td>
-             <td><input id="delete_task" type="submit" value="Delete Task" onclick=confirm_delete_entry() formaction="{% url 'polls:entries' %}" formmethod="POST" disabled="true"></td>
+             <td><input id="edit_task" type="submit" value="Edit"  formaction="{% url 'polls:editentry' %}" formmethod="GET" disabled="true"></td>
+             <td></td>
+             <td><input id="delete_task" type="submit" value="Delete" onclick=confirm_delete_entry() formaction="{% url 'polls:entries' %}" formmethod="POST" disabled="true"></td>
          </tr>
      </table>
      <input hidden name="list_id" value={{list_id}}>
