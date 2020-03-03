@@ -12,7 +12,7 @@
                  <td></td>
                  <td><input  type="submit" value="Add List" formaction="{% url 'polls:createtodolist' %}"></td>
                  <td></td>
-                 <td><input id="delete_list" type="submit" value="Delete List"  formaction="{% url 'polls:mytodolists' %}" formmethod="POST" onclick=confirm_delete_list() disabled="true"></td>
+                 <td><input id="delete_list" type="submit" value="Delete List"  formaction="{% url 'polls:todolists' %}" formmethod="POST" onclick=confirm_delete_list() disabled="true"></td>
                  <td></td>
                  <td><input id="add_member" type="submit" value="Add Member" formaction="{% url 'polls:addmember' %}" disabled="true"></td>
              </tr>

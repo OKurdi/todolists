@@ -25,11 +25,7 @@ class Entry(models.Model):
 
 class TodoList(models.Model):
     name = models.CharField(max_length=15)
-
-
-class UserWithTodoLists(models.Model):
-    user = models.ForeignKey(django.contrib.auth.models.User, on_delete=models.CASCADE)
-    todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE)
+    user = models.ForeignKey(django.contrib.auth.models.User, on_delete=models.CASCADE, related_name='list_user', default=2)
 
 
 class TodoListWithEntris(models.Model):
