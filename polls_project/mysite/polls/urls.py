@@ -21,5 +21,7 @@ urlpatterns = [
     path('editprofile/', views.EditProfile, name='editprofile'),
     path('ajax/entrystatus/', views.EntryStatus, name='entrystatus'),
     path('editentry/', views.EditEntry, name='editentry'),
+    path('ajax/activatebuttons/', views.ActivateButtons, name='activatebuttons'),
+    path('ajax/change_member_accessibility/', views.ChangeMemberAccessibility, name='changememberaccessibility'),
 
 ]

@@ -2,28 +2,56 @@
 
 {%block content%}
 <h1 class="header">Add Member</h1>
- <form action="{% url 'polls:addmember' %}" method="POST">{% csrf_token %}
+ <form action="{% url 'polls:addmember' %}" method="POST" width="50%">{% csrf_token %}
       <table class="customers">
          <thead>
              <tr>
-                 <td width="20px"></td>
-                 <td width="30px">id</td>
-                 <td width="50px">User Name</td>
-                 <td width="150px">e-mail</td>
+                 <td width="3%"></td>
+                 <td hidden width="1%">id</td>
+                 <td width="30%">User Name</td>
+                 <td width="30%">e-mail</td>
+                 <td width="1%">Member</td>
              </tr>
          </thead>
-         {% for user in users_list%}
+          {% for user in has_access%}
             <tr >
-                <td width="20px"><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"><span class="checkpoint"></span></label></td>
-                <td width="30px">{{user.id}}</td>
-                <td width="300px">{{user.username}}</td>
-                <td width="60px">{{user.email}}</td>
+                <td><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"><span class="checkpoint"></span></label></td>
+                <td hidden>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td><label class="container">
+                                <input type="checkbox" checked onchange=change_member_accessibility(this.value,{{ list_id}}) value="{{user.id}}" >
+                                <span class="checkmark"></span>
+                            </label>
+                </td>
+                <span ></span>
+            </tr>
+         {% endfor %}
+          {% for user in no_access%}
+            <tr >
+                <td><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"><span class="checkpoint"></span></label></td>
+                <td hidden>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td><label class="container">
+                                <input type="checkbox" onchange=change_member_accessibility(this.value,{{ list_id}}) value="{{user.id}}" >
+                                <span class="checkmark"></span>
+                            </label>
+                </td>
                 <span ></span>
             </tr>
          {% endfor %}
      </table>
      <BR>
      <input hidden name="list_id" value={{list_id}}>
-     <input type="submit" value="Add Member">
+     <input hidden name="pagename" type="text" value="{{ pagename }}">
+
+     <table style="width:50em">
+         <tr>
+             <td>
+                 <input type="submit" value="Done">
+             </td>
+         </tr>
+     </table>
   </form>
 {%endblock%}

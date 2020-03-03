@@ -1,0 +1,21 @@
+{%extends 'polls/base.html'%}
+
+{%block content%}
+    <form action="{% url 'polls:entries' %}" method="GET">{% csrf_token %}
+         {% block todolistscontent%}
+         {% endblock %}
+         <table>
+             <tr>
+                 <td><input id="view_tasks" type="submit" value="View Tasks" disabled="true"></td>
+                 <td></td>
+                 <td><input id="rename_list" type="submit" value="Rename List" disabled="true" formaction="{% url 'polls:renamelist' %}"></td>
+                 <td></td>
+                 <td><input  type="submit" value="Add List" formaction="{% url 'polls:createtodolist' %}"></td>
+                 <td></td>
+                 <td><input id="delete_list" type="submit" value="Delete List"  formaction="{% url 'polls:mytodolists' %}" formmethod="POST" onclick=confirm_delete_list() disabled="true"></td>
+                 <td></td>
+                 <td><input id="add_member" type="submit" value="Add Member" formaction="{% url 'polls:addmember' %}" disabled="true"></td>
+             </tr>
+         </table>
+  </form>
+{%endblock%}

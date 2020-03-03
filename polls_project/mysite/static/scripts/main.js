@@ -5,13 +5,36 @@ function confirm_delete_list(){
 function confirm_delete_entry(){
     return confirm('Are you sure you want to delete this task?')
 }
-
-function enable_buttons(){
-    document.getElementById("view_tasks").disabled =false
-    document.getElementById("rename_list").disabled =false
-    document.getElementById("add_member").disabled =false
-    document.getElementById("delete_list").disabled =false
+function enable_my_todo_lists_buttons(){
+    document.getElementById("view_tasks").disabled =false;
+    document.getElementById("rename_list").disabled =false;
+    document.getElementById("add_member").disabled =false;
+    document.getElementById("delete_list").disabled =false;
 }
+function enable_buttons(list_id){
+     console.log(list_id)
+     var returnedData;
+     $.ajax({
+          url: '/polls/ajax/activatebuttons/',
+          type: 'POST',
+          data: {'list_id': list_id},
+          dataType:'json',
+          success: function(response){
+              if(response.hasAccess){
+                document.getElementById("view_tasks").disabled =false;
+                document.getElementById("rename_list").disabled =false;
+                document.getElementById("add_member").disabled =false;
+                document.getElementById("delete_list").disabled =false;
+              }else{
+                document.getElementById("view_tasks").disabled =false;
+                document.getElementById("rename_list").disabled =true;
+                document.getElementById("add_member").disabled =true;
+                document.getElementById("delete_list").disabled =true;
+              }
+          }
+    })
+}
+
 function activate_view_tasks_button(){
     document.getElementById("view_tasks").disabled =false
 }
@@ -39,6 +62,18 @@ function check(entry_check_box, entry){
     }else{
             document.getElementById(entry_check_box.id).checked = false;
     }
+}
+
+function change_member_accessibility(user_id, list_id){
+    $.ajax({
+          url: '/polls/ajax/change_member_accessibility/',
+          type: 'POST',
+          data: {'user_id': user_id, 'list_id':list_id},
+          dataType:'json',
+          success: function(data){
+              console.log("requested access complete");
+          }
+    })
 }
 
 $(function() {
@@ -94,3 +129,6 @@ $(function() {
         }
     });
 });
+
+
+

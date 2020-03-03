@@ -82,7 +82,7 @@ input[type=button], input[type=submit], input[type=reset] {
 .customers {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 50em;
   align: center;
   box-shadow: 2px 2px #888888;
   border-radius: 8px !important;

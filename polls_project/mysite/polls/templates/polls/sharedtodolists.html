@@ -7,18 +7,18 @@
      <table class="customers">
          <thead>
              <tr>
-                 <td width="30px"></td>
-                 <td width="30px">list id</td>
-                 <td width="70px">list name</td>
-                 <td width="150px">Owner</td>
+                 <td width="3%"></td>
+                 <td width="1%" hidden>list id</td>
+                 <td width="30%">list name</td>
+                 <td width="25%">Owner</td>
              </tr>
          </thead>
          {% for list in todo_lists %}
             <tr for="list{{ forloop.counter }}">
-                <td width="30px"><label class="radiobuttoncontainer"><input onclick=activate_view_tasks_button() type="radio" name="list_id" id="list{{ forloop.counter }}" value="{{ list.get_todolist.id }}"><span class="checkpoint"></span></label></td>
-                <td width="30px">{{list.get_todolist.id}}</td>
-                <td width="70px">{{list.get_todolist.name}}</td>
-                <td width="150px">{{list.get_owner.email}}</td>
+                <td><label class="radiobuttoncontainer"><input onclick=activate_view_tasks_button() type="radio" name="list_id" id="list{{ forloop.counter }}" value="{{ list.get_todolist.id }}"><span class="checkpoint"></span></label></td>
+                <td hidden>{{list.get_todolist.id}}</td>
+                <td>{{list.get_todolist.name}}</td>
+                <td>{{list.get_owner.email}}</td>
                 <span ></span>
             </tr>
          {% endfor %}
@@ -26,7 +26,7 @@
      {% endif %}
      <input hidden name="pagename" type="text" value="sharedtodolists">
 
-     <table>
+     <table style="width:50em">
          <tr>
              <td><input id="view_tasks" type="submit" value="View Tasks" disabled="true"></td>
          </tr>

@@ -1,5 +1,4 @@
 {%extends 'polls/base.html'%}
-{% load static %}
 
 {%block content%}
 <h1 class="header">Entries List</h1>
@@ -8,20 +7,20 @@
          <table class="customers">
              <thead>
                  <tr>
-                     <td width="20px"></td>
-                     <td width="30px">id</td>
-                     <td width="50px">Titel</td>
-                     <td width="150px">Description</td>
-                     <td width="60px">Done</td>
+                     <td width="3%"></td>
+                     <td width="1%" hidden>id</td>
+                     <td width="20%">Titel</td>
+                     <td width="40%">Description</td>
+                     <td width="1%">Done</td>
                  </tr>
              </thead>
              {% for entry in entries%}
                 <tr for="entry{{ forloop.counter }}">
-                    <td width="20px" > <label class="radiobuttoncontainer"><input type="radio" onclick=activate_entries_buttons()  name="entry" id="entry{{ forloop.counter }}" value="{{ entry.id }}"><span class="checkpoint"></span></label></td>
-                    <td width="30px" ><label for="entry{{forloop.counter}}">{{entry.id}}</label></td>
-                    <td width="200px"><label for="entry{{forloop.counter}}">{{entry.entry_titel}}</label></td>
-                    <td width="300px"><label for="entry{{forloop.counter}}">{{entry.description}}</label></td>
-                    <td width="60px" >
+                    <td> <label class="radiobuttoncontainer"><input type="radio" onclick=activate_entries_buttons()  name="entry" id="entry{{ forloop.counter }}" value="{{ entry.id }}"><span class="checkpoint"></span></label></td>
+                    <td  hidden><label for="entry{{forloop.counter}}">{{entry.id}}</label></td>
+                    <td><label for="entry{{forloop.counter}}">{{entry.entry_titel}}</label></td>
+                    <td><label for="entry{{forloop.counter}}">{{entry.description}}</label></td>
+                    <td>
                         {% if entry.selected == 'True'%}
                             <label class="container">
                                 <input onchange=mark_entry_done(this.value) checked
