@@ -4,7 +4,7 @@
     <h1 class="header">Edit Task</h1>
     <form class ="site-form" action="{%url 'polls:editentry' %}" method="POST">{% csrf_token %}
         <label id="p">Task:</label><BR>
-        <input id="task_name_input" type="text" name="entry_titel" value="{{entry.entry_titel}}" onkeyup=disable_enable_button(save_entry_button,this)><BR>
+        <input id="task_name_input" type="text" name="entry_titel" value="{{entry.entry_titel}}" onemptied=disable_enable_button(save_entry_button,this) onkeyup=disable_enable_button(save_entry_button,this)><BR>
         <label id="e">description</label><BR>
         <textarea type="text" name="description" >{{entry.description}}</textarea><BR>
         <input hidden name="list_id" value={{list_id}}>
@@ -18,5 +18,4 @@
             </tr>
         </table>
     </form>
-
 {%endblock%}

@@ -3,8 +3,6 @@
 {%block content%}
 <h1 class="header">Profile</h1>
  <form action="{% url 'polls:editprofile' %}" method="POST">{% csrf_token %}
-
-
      <table width="100%">
          <tr>
              <td><lable class="">Full Name:</lable></td>
@@ -34,11 +32,7 @@
              <td><lable class="">Password:</lable></td>
              <td><input type="text" name="password" value="{{authuserinfo.password}}"></input></td>
          </tr>
-
      </table>
-
-
-
      <input hidden name="list_id" value={{list_id}}>
      <table width="50%">
          <tr>

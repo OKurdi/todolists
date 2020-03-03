@@ -25,7 +25,6 @@ def signup_view(request):
         new_user.email = request.POST['email']
         new_user.age = request.POST['age']
         new_user.phone = request.POST['phone']
-        # new_user.password = register_form.cleaned_data['password1']
         new_user.bio = request.POST['bio']
         if register_form.is_valid():
             auth_user = register_form.save()
@@ -35,9 +34,9 @@ def signup_view(request):
             new_user = authenticate(username=register_form.cleaned_data['username'],
                                     password=register_form.cleaned_data['password1'],
                                     )
+            print('before loginig')
             login(request, new_user)
             return HttpResponseRedirect("/polls/todolists")
-            # return redirect('polls:login')
     elif request.method == 'GET':
         register_form = RegisterForm()
     return render(request, 'polls/signup.html', {'form': register_form})
@@ -52,17 +51,10 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             print('line41:// This line has been reached after login ')
-            user_todo_lists = CombineUserAndSharedLists(request.user.id)
             return HttpResponseRedirect("/polls/todolists")
-
-            # return render(request, 'polls/todolists.html', {'todo_lists': user_todo_lists}, )
         except:
-            # storage = messages.get_messages(request)
-            # storage.used = True
             messages.error(request, 'username or password not correct')
             return redirect("/polls/login/")
-            # return HttpResponseRedirect("/polls/login")
-            # return render(request, 'polls/login.html')
     elif request.method == 'GET':
         form = AuthenticationForm()
         return render(request, 'polls/login.html', {'form': form})
@@ -75,7 +67,6 @@ def logout_view(request):
 
 def TodoListView(request):
     if request.method == 'GET':
-        # return redirect('polls/todolists.html')
         if len(CombineUserAndSharedLists(request.user.id)) == 0:
             return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
                                                             'warningmessage': "You don't have any todo lists!",
@@ -134,7 +125,6 @@ def ViewSharedTodoLists(request):
         # I want to get the object of the SharedListsWithUsers, so that I can mapp it with the user and owner details in the html page.
         # so here I am not using the TodoLists objects. Thus, I getting the object it self and managing the joining functionality depending
         # on the objects functionality in the model.
-        # SharedTodoLists = FilterSharedTodoLists(user_id)
         shared_lists = SharedListsWithUsers.objects.filter(user_id=request.user.id)
         if shared_lists.count() == 0:
             return render(request, 'polls/sharedtodolists.html',
@@ -170,11 +160,6 @@ def CreateTodoList(request):
                 elif request.POST.get('pagename') == 'todolists':
                     return redirect('http://127.0.0.1:8000/polls/todolists',
                                     message='List has been created successfuly!')
-                '''return render(request, 'polls/todolists.html',
-                              {'todo_lists': CombineUserAndSharedLists(request.user.id),
-                               'message': 'List has been created successfuly!'}, )
-                '''
-                # return redirect('polls:todolists')
             else:
                 return render(request, 'polls/createtodolist.html', {
                     'warningmessage': 'List Name is already exist, please choose different name or delete duplicated list!',
@@ -184,7 +169,6 @@ def CreateTodoList(request):
                           {'todo_lists': CombineUserAndSharedLists(request.user.id),
                            'warningmessage': "number of lists is 10, please remove unnecessary lists and try again.",
                            'user_name': request.user.username}, )
-            # return redirect('polls:todolists')
     elif request.method == 'GET':
         return render(request, 'polls/createtodolist.html', {'pagename': request.GET.get('pagename'),
                                                              'user_name': request.user.username})
@@ -424,19 +408,11 @@ def EditEntry(request):
         edited_entry.entry_titel = request.POST.get('entry_titel')
         edited_entry.description = request.POST.get('description')
         edited_entry.save()
-
-        # return HttpResponseRedirect('/polls/entries')
-        '''
-        return reverse(request,'polls/entries.html',kwargs={'message': 'Changes has been saved !',
-            'list_id': request.POST.get('list_id'),
-            'user_name': request.user.username,})
-        '''
         return render(request, 'polls/entries.html',
                       {'entries': FilterEntries(request.POST.get('list_id')),
                        'message': 'Changes have been saved !',
                        'list_id': request.POST.get('list_id'),
                        'user_name': request.user.username})
-
     elif request.method == 'GET':
         print(request.GET.get('entry'))
         return render(request, 'polls/editentry.html',
