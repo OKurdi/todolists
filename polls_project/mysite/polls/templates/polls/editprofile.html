@@ -12,7 +12,7 @@
          </tr>
          <tr>
              <td><lable class="">E-mail:</lable></td>
-             <td><input type="text" name="email" value="{{pollsuserinfo.email}}"></input></td>
+             <td><input id="email_profile_input" type="text" name="email" value="{{pollsuserinfo.email}}" onkeyup=disable_enable_button(save_profile_button,this)></input></td>
          </tr>
          <tr>
              <td><lable class="">Age:</lable></td>
@@ -42,7 +42,7 @@
      <input hidden name="list_id" value={{list_id}}>
      <table width="50%">
          <tr>
-             <td><input type="submit" value="Save" formaction="{% url 'polls:editprofile' %}" ></td>
+             <td><input id="save_profile_button" type="submit" value="Save" formaction="{% url 'polls:editprofile' %}" ></td>
              <td></td>
              <td><input type="submit" value="Cancel" formaction="{% url 'polls:profile' %}" formmethod="GET"></td>
          </tr>

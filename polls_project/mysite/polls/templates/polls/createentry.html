@@ -2,12 +2,12 @@
 
 {%block content%}
 <h1 class="header">Add an Entry</h1>
-<form class ="site-form" action="{%url 'polls:createentry' %}" method="POST">{% csrf_token %}
+<form class ="site-form" action="{%url 'polls:createentry' %}" method="POST" style="width:50em">{% csrf_token %}
     <label id="p">Task:</label><BR>
-    <input type="text" name="task" id="" value=""><BR>
+    <input type="text" name="task" id="task" value="" onkeyup=disable_enable_button(create_entry_button,this)><BR>
     <label id="e">description</label><BR>
     <textarea type="text" name="description" value=""></textarea><BR>
     <input hidden name="list_id" value={{list_id}}>
-    <BR><input type="submit" value="Create Now">
+    <BR><input id="create_entry_button" type="submit" value="Create Now" disabled="true">
 </form>
 {%endblock%}

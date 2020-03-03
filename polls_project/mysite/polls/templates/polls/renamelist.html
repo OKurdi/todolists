@@ -5,12 +5,12 @@
     <form action="{% url 'polls:renamelist' %}" method="POST" >{% csrf_token %}
         <BR>
         <label id="p">List New Name:</label><BR>
-        <input type="text" name="list_name" id="" value="{{list_name.name}}"><BR>
+        <input type="text" name="list_name" id="rename_list" value="{{list_name.name}}" onkeyup=disable_enable_button(rename_button,this)><BR>
         <input hidden name="list_id" value={{list_id}}>
         <input hidden name="pagename" value={{pagename}}>
         <table>
              <tr>
-                 <td><input type="submit" value="Rename"></td>
+                 <td><input id="rename_button" type="submit" value="Rename"></td>
              </tr>
         </table>
     </form>

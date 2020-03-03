@@ -4,12 +4,19 @@
     <h1 class="header">Edit Task</h1>
     <form class ="site-form" action="{%url 'polls:editentry' %}" method="POST">{% csrf_token %}
         <label id="p">Task:</label><BR>
-        <input type="text" name="entry_titel" value="{{entry.entry_titel}}"><BR>
+        <input id="task_name_input" type="text" name="entry_titel" value="{{entry.entry_titel}}" onkeyup=disable_enable_button(save_entry_button,this)><BR>
         <label id="e">description</label><BR>
         <textarea type="text" name="description" >{{entry.description}}</textarea><BR>
         <input hidden name="list_id" value={{list_id}}>
         <input hidden name="entry" value={{entry.id}}>
-        <BR><input type="submit" value="Save">
+        <BR>
+        <table style="width:50em">
+            <tr>
+                <td>
+                    <input id="save_entry_button" type="submit" value="Save">
+                </td>
+            </tr>
+        </table>
     </form>
 
 {%endblock%}

@@ -19,7 +19,7 @@
       <a class="active" href="{% url 'polls:todolists' %}" methods="GET" title="Show all todo lists">Home</a>
       <a href="{% url 'polls:sharedtodolists' %}" methods="GET" title="Show todo lists shared with me">Shared Lists</a>
       <a href="{% url 'polls:mytodolists' %}" methods="GET" title="Show todo lists created by me">My Lists</a>
-      <a href="{% url 'polls:logout' %}" methods="GET" style="float:right; background:red;">logout</a>
+      <a href="{% url 'polls:logout' %}" methods="GET" class="logout_button">logout</a>
       <a href="{% url 'polls:profile' %}" methods="GET" style="float:right" title="View Profile">{{user_name}}</a>
     </div>
     <br><br>

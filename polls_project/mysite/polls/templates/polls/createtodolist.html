@@ -10,7 +10,7 @@
      {% endif %}
      {% if message %}
          <div class="info">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times</span>
             <strong>{{message}}</strong>
          </div>
      {% endif %}
@@ -19,8 +19,14 @@
         <BR>
         <input hidden name="pagename" type="text" value="{{pagename}}">
         <label id="p">List Name:</label><BR>
-        <input type="text" name="listName" id="" value=""><BR>
-        <input type="submit" value="Create Now!">
+        <input  type="text" name="listName" id="list_name" value="" onkeyup=disable_enable_button(create_todo_list_button,this)><BR>
+        <table style="width:50em">
+            <tr>
+                <td>
+                    <input type="submit" value="Create Now!" id="create_todo_list_button" disabled="true">
+                </td>
+            </tr>
+        </table>
     </form>
 </body>
 {%endblock%}

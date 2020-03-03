@@ -5,12 +5,14 @@ function confirm_delete_list(){
 function confirm_delete_entry(){
     return confirm('Are you sure you want to delete this task?')
 }
+
 function enable_my_todo_lists_buttons(){
     document.getElementById("view_tasks").disabled =false;
     document.getElementById("rename_list").disabled =false;
     document.getElementById("add_member").disabled =false;
     document.getElementById("delete_list").disabled =false;
 }
+
 function enable_buttons(list_id){
      console.log(list_id)
      var returnedData;
@@ -33,6 +35,20 @@ function enable_buttons(list_id){
               }
           }
     })
+}
+
+function disable_enable_button(button,input_element){
+    if(document.getElementById(input_element.id).value.length == 0){
+        document.getElementById(button.id).disabled=true;
+    }else{
+        console.log("this is the id "+button.value)
+        document.getElementById(button.id).disabled=false;
+    }
+}
+
+function enable_button(element){
+    console.log("this is the id "+element.value)
+    document.getElementById(element.id).disabled=false;
 }
 
 function activate_view_tasks_button(){

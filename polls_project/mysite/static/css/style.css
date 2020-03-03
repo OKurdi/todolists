@@ -1,5 +1,5 @@
 input[type=text] , input[type=email] , input[type=password] , input[type=phone] {
-  width: 40%;
+  width: 60em;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
@@ -14,7 +14,7 @@ input[type=text]:focus , input[type=email]:focus , input[type=password]:focus , 
 }
 
 textarea {
-  width: 40%;
+  width: 60em;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
@@ -311,3 +311,8 @@ input[type=button], input[type=submit], input[type=reset] {
 	border-radius: 50%;
 	background: white;
 }
+
+.logout_button{
+    float:right !important;
+}
+.logout_button:hover{background:red !important;}
