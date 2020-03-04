@@ -24,19 +24,19 @@
     </div>
     <br><br>
     {% if message %}
-         <div class="info">
+         <div id="info-message" class="info" >
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <strong>{{message}}</strong>
          </div><br>
     {% endif %}
     {% if warningmessage %}
-         <div class="alert">
+         <div id="warning-message" class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <strong>{{warningmessage}}</strong>
          </div><br>
     {% endif %}
     {% for sessionmessage in messages %}
-         <div class="info">
+         <div id="session-message" class="info">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <strong>{{sessionmessage}}</strong>
          </div><br>

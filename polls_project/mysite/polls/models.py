@@ -20,12 +20,15 @@ class User(models.Model):
 class Entry(models.Model):
     entry_titel = models.CharField(max_length=50, blank=True)
     description = models.TextField(max_length=200, blank=True)
-    selected = models.CharField(max_length=50, default=False)
+    isdone = models.CharField(max_length=50, default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 class TodoList(models.Model):
     name = models.CharField(max_length=15)
     user = models.ForeignKey(django.contrib.auth.models.User, on_delete=models.CASCADE, related_name='list_user', default=2)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class TodoListWithEntris(models.Model):

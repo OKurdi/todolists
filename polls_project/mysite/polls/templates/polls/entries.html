@@ -21,7 +21,7 @@
                     <td><label for="entry{{forloop.counter}}">{{entry.entry_titel}}</label></td>
                     <td><label for="entry{{forloop.counter}}">{{entry.description}}</label></td>
                     <td>
-                        {% if entry.selected == 'True'%}
+                        {% if entry.isdone == 'True'%}
                             <label class="container">
                                 <input onchange=mark_entry_done(this.value) checked
                                                           id="entry{{forloop.counter}}"

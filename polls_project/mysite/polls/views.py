@@ -72,7 +72,8 @@ def TodoListView(request):
                                                             'user_name': request.user.username}, )
         else:
             return render(request, 'polls/todolists.html',
-                          {'todo_lists': CombineUserAndSharedLists(request.user.id),
+                          {'user_lists': FilterUserTodoLists(request.user.id),
+                           'shared_lists': FilterSharedTodoLists(request.user.id),
                            'user_name': request.user.username,
                            'message': 'Here is your todo lists: ', }, )
     elif request.method == 'POST':
@@ -88,20 +89,28 @@ def DeleteTodoList(request):
             entries_id.append(mapping_todo_list_with_entry.entry_id)
         Entry.objects.filter(id__in=entries_id).delete()
         TodoListWithEntris.objects.filter(todo_list_id=request.POST.get('list_id')).delete()
-        messagetitle='message'
+        messagetitle = 'message'
         message = 'list has been successfuly deleted.'
-        return DeleteTodoListResponse(request,messagetitle,message)
+        return DeleteTodoListResponse(request, messagetitle, message)
     else:
         messagetitle = 'warningmessage'
         message = 'You are not allowed to delete this list, as you are not the owner of it! please contact your adminstrator for more details!'
-        return DeleteTodoListResponse(request,messagetitle,message)
+        return DeleteTodoListResponse(request, messagetitle, message)
 
 
-def DeleteTodoListResponse(request,messagetitle,message):
-    if request.POST.get('pagename') =='todolists':
+def DeleteTodoListResponse(request, messagetitle, message):
+    if request.POST.get('pagename') == 'todolists':
+        MESSAGE_TAGS = {
+            messages.INFO: '',
+            messagetitle: message,
+        }
+        messages.add_message(request, messages.INFO, MESSAGE_TAGS)
+        return HttpResponseRedirect("/polls/todolists")
+        '''
         return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
                                                         messagetitle: message,
                                                         'user_name': request.user.username}, )
+        '''
     else:
         return render(request, 'polls/mytodolists.html', {'todo_lists': FilterUserTodoLists(request.user.id),
                                                           messagetitle: message,
@@ -133,7 +142,7 @@ def ViewMyTodoLists(request):
 
 def ViewSharedTodoLists(request):
     if request.method == 'GET':
-        # I want to get the object of the SharedListsWithUsers, so that I can mapp it with the user and owner details in the html page.
+        # getting the object of the SharedListsWithUsers, so that I can mapp it with the user and owner details in the html page.
         # so here I am not using the TodoLists objects. Thus, I getting the object it self and managing the joining functionality depending
         # on the objects functionality in the model.
         shared_lists = SharedListsWithUsers.objects.filter(user_id=request.user.id)
@@ -172,8 +181,11 @@ def CreateTodoList(request):
                     'warningmessage': 'List Name is already exist, please choose different name or delete duplicated list!',
                     'user_name': request.user.username}, )
         else:
+            user_todo_lists = FilterUserTodoLists(request.user.id)
+            shared_todo_lists = FilterSharedTodoLists(request.user.id)
             return render(request, 'polls/todolists.html',
-                          {'todo_lists': CombineUserAndSharedLists(request.user.id),
+                          {'user_lists': user_todo_lists,
+                           'shared_lists': shared_todo_lists,
                            'warningmessage': "number of lists is 10, please remove unnecessary lists and try again.",
                            'user_name': request.user.username}, )
     elif request.method == 'GET':
@@ -201,11 +213,11 @@ def RenameListView(request):
 
 def ReturnFromRenameList(request):
     if request.POST.get('pagename') == 'todolists':
-        return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
+        return render(request, 'polls/todolists.html', {'user_lists': FilterUserTodoLists(request.user.id),
+                                                        'shared_lists': FilterSharedTodoLists(request.user.id),
                                                         'message': "List has been successfully renamed !",
                                                         'user_name': request.user.username}, )
     elif request.POST.get('pagename') == 'mytodolists':
-
         return render(request, 'polls/mytodolists.html', {'todo_lists': FilterUserTodoLists(request.user.id),
                                                           'message': "List has been successfully renamed !",
                                                           'user_name': request.user.username}, )
@@ -267,7 +279,8 @@ def EntriesView(request):
             return ReturnEntriesViewResponse(request, FilterEntries(request.GET.get('list_id')),
                                              request.GET.get('list_id'))
         else:
-            return render(request, 'polls/todolists.html', {'todo_lists': CombineUserAndSharedLists(request.user.id),
+            return render(request, 'polls/todolists.html', {'user_lists': FilterUserTodoLists(request.user.id),
+                                                            'shared_lists': FilterSharedTodoLists(request.user.id),
                                                             'warningmessage': 'Please select a List to view the tasks!',
                                                             'user_name': request.user.username}, )
     elif request.method == 'POST':
@@ -278,7 +291,7 @@ def EntriesView(request):
                                          request.POST.get('list_id'))
     elif request.method == 'PUT':
         checked_entry = Entry.objects.get(id=request.PUT.get('entry'))
-        checked_entry.selected = True
+        checked_entry.isdone = True
         checked_entry.save()
 
 
@@ -320,11 +333,13 @@ def AddMember(request):
                 no_access_list.append(user)
         return render(request, 'polls/addmember.html',
                       {'has_access': has_access_list, 'no_access': no_access_list, 'users_list': users_list,
-                       'list_id': request.GET.get('list_id'), 'user_name': request.user.username, 'pagename': request.GET.get('pagename')}, )
+                       'list_id': request.GET.get('list_id'), 'user_name': request.user.username,
+                       'pagename': request.GET.get('pagename')}, )
     elif request.method == 'POST':
         if request.POST.get('pagename') == "todolists":
             return render(request, 'polls/todolists.html',
-                          {'todo_lists': CombineUserAndSharedLists(request.user.id),
+                          {'user_lists': FilterUserTodoLists(request.user.id),
+                           'shared_lists': FilterSharedTodoLists(request.user.id),
                            'user_name': request.user.username}, )
         else:
             return render(request, 'polls/mytodolists.html',
@@ -380,10 +395,10 @@ def EntryStatus(request):
     if request.method == 'POST':
         data = {'is_valid': False, }
         checked_entry = Entry.objects.get(id=request.POST.get('entry_id'))
-        if checked_entry.selected == "True":
-            checked_entry.selected = "False"
+        if checked_entry.isdone == "True":
+            checked_entry.isdone = "False"
         else:
-            checked_entry.selected = "True"
+            checked_entry.isdone = "True"
         checked_entry.save()
     return JsonResponse(data, safe=False)
 

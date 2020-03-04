@@ -73,12 +73,30 @@ function mark_entry_done(entry_id) {
 }
 
 function check(entry_check_box, entry){
-    if(entry.selected == "checked"){
+    if(entry.isdone == "checked"){
             document.getElementById(entry_check_box.id).checked = true;
     }else{
             document.getElementById(entry_check_box.id).checked = false;
     }
 }
+
+$(function(){
+    setTimeout(function(){
+        $("#info-message").hide();
+        }, 5000);
+});
+
+$(function(){
+    setTimeout(function(){
+        $("#warning-message").hide();
+        }, 5000);
+});
+
+$(function(){
+    setTimeout(function(){
+        $("#session-message").hide();
+        }, 5000);
+    });
 
 function change_member_accessibility(user_id, list_id){
     $.ajax({

@@ -6,7 +6,7 @@
       <table class="customers">
          <thead>
              <tr>
-                 <td width="3%"></td>
+                 <td hidden width="3%"></td>
                  <td hidden width="1%">id</td>
                  <td width="30%">User Name</td>
                  <td width="30%">e-mail</td>
@@ -14,13 +14,13 @@
              </tr>
          </thead>
           {% for user in has_access%}
-            <tr >
-                <td><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"><span class="checkpoint"></span></label></td>
+            <tr>
+                <td hidden><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"><span class="checkpoint"></span></label></td>
                 <td hidden>{{user.id}}</td>
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
                 <td><label class="container">
-                                <input type="checkbox" checked onchange=change_member_accessibility(this.value,{{ list_id}}) value="{{user.id}}" >
+                                <input type="checkbox" checked onchange=change_member_accessibility(this.value,{{ list_id }}) value="{{user.id}}" >
                                 <span class="checkmark"></span>
                             </label>
                 </td>
@@ -29,12 +29,12 @@
          {% endfor %}
           {% for user in no_access%}
             <tr >
-                <td><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"><span class="checkpoint"></span></label></td>
+                <td hidden><label class="radiobuttoncontainer"><input type="radio" name="user_id" id="user{{ forloop.counter }}" value="{{ user.id }}"><span class="checkpoint"></span></label></td>
                 <td hidden>{{user.id}}</td>
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
                 <td><label class="container">
-                                <input type="checkbox" onchange=change_member_accessibility(this.value,{{ list_id}}) value="{{user.id}}" >
+                                <input type="checkbox" onchange=change_member_accessibility(this.value,{{ list_id }}) value="{{user.id}}" >
                                 <span class="checkmark"></span>
                             </label>
                 </td>

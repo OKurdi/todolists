@@ -15,7 +15,7 @@
                 <tr for="list{{ forloop.counter }}">
                     <td><label class="radiobuttoncontainer"><input type="radio" name="list_id" onclick=enable_my_todo_lists_buttons() id="list{{ forloop.counter }}" value="{{ list.id }}"><span class="checkpoint"></span></label></td>
                     <td hidden>{{list.id}}</td>
-                    <td>{{list.name}}</td>
+                    <td><label for="list{{ forloop.counter }}">{{list.name}}</label></td>
                     <span ></span>
                 </tr>
              {% endfor %}
