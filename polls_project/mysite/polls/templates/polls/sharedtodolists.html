@@ -9,8 +9,8 @@
              <tr>
                  <td width="3%"></td>
                  <td width="1%" hidden>list id</td>
-                 <td width="30%">list name</td>
-                 <td width="25%">Owner</td>
+                 <td width="30%">List Name</td>
+                 <td width="20%">Owner</td>
              </tr>
          </thead>
          {% for list in todo_lists %}
@@ -19,7 +19,6 @@
                 <td hidden>{{list.get_todolist.id}}</td>
                 <td><label for="list{{ forloop.counter }}">{{list.get_todolist.name}}</label></td>
                 <td><label for="list{{ forloop.counter }}">{{list.get_owner.email}}</label></td>
-                <span ></span>
             </tr>
          {% endfor %}
      </table><BR>

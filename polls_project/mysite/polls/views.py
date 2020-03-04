@@ -246,7 +246,7 @@ def HandelCreationOfNewEntry(request, new_entry):
     todo_list_with_entry.entry_id = new_entry.id
     todo_list_with_entry.save()
 
-
+#todo: this function is to be deleted, as it was used to display the all lists of the user with the shared lists. Now it is replaced with seperating functionality.
 def CombineUserAndSharedLists(user_id):
     user_lists = FilterUserTodoLists(user_id)
     shared_lists = FilterSharedTodoLists(user_id)
@@ -276,6 +276,7 @@ def FilterSharedTodoLists(user_id):
 def EntriesView(request):
     if request.method == 'GET':
         if request.GET.get('list_id') != None:
+            print(request.GET.get('list_id'))
             return ReturnEntriesViewResponse(request, FilterEntries(request.GET.get('list_id')),
                                              request.GET.get('list_id'))
         else:
@@ -289,10 +290,6 @@ def EntriesView(request):
         Entry.objects.filter(id=request.POST.get('entry')).delete()
         return ReturnEntriesViewResponse(request, FilterEntries(request.POST.get('list_id')),
                                          request.POST.get('list_id'))
-    elif request.method == 'PUT':
-        checked_entry = Entry.objects.get(id=request.PUT.get('entry'))
-        checked_entry.isdone = True
-        checked_entry.save()
 
 
 def FilterEntries(list_id):

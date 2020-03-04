@@ -3,20 +3,19 @@
 {%block todolistscontent%}
 <h1 class="header">Todo Lists</h1>
      <label class="label">My Todo Lists</label>
-
      <table class="customers">
          <thead>
              <tr>
                  <td width="3%"></td>
                  <td width="1%" hidden>list id</td>
-                 <td width="50%">list name</td>
+                 <td width="30%">List Name</td>
              </tr>
          </thead>
          {% for list in user_lists %}
             <tr for="list{{ forloop.counter }}">
                 <td><label class="radiobuttoncontainer"><input type="radio" onclick=enable_buttons({{ list.id }}) name="list_id" id="list{{ forloop.counter }}" value="{{ list.id }}"><span class="checkpoint"></span></label></td>
                 <td hidden>{{list.id}}</td>
-                <td><label for="list{{ forloop.counter }}">{{list.name}}</label></td>
+
             </tr>
          {% endfor %}
      </table><BR>
@@ -26,7 +25,8 @@
              <tr>
                  <td width="3%"></td>
                  <td width="1%" hidden>list id</td>
-                 <td width="50%">list name</td>
+                 <td width="30%">List Name</td>
+                 <td width="20%">Owner</td>
              </tr>
          </thead>
          {% for list in shared_lists %}
@@ -34,12 +34,9 @@
                 <td><label class="radiobuttoncontainer"><input type="radio" onclick=enable_buttons({{ list.id }}) name="list_id" id="list{{ forloop.counter }}" value="{{ list.id }}"><span class="checkpoint"></span></label></td>
                 <td hidden>{{list.id}}</td>
                 <td><label for="list{{ forloop.counter }}">{{list.name}}</label></td>
+                <td><label for="list{{ forloop.counter }}">{{list.get_user.email}}</label></td>
             </tr>
          {% endfor %}
      </table><BR>
      <input hidden name="pagename" type="text" value="todolists">
-
-    <!--
-        <td><input id="view_tasks" type="submit" value="View Tasks" style="{background:https://cdn0.iconfinder.com/data/icons/website-fat-outlines-part-1-black/96/web-27-512.png;}"></td>
-    -->
 {%endblock%}

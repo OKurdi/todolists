@@ -51,7 +51,6 @@ textarea:focus {
     padding:30px;
     text-align:left;
     align:center;
-    //background: url(https://sf.co.ua/14/08/wallpaper-1936140.jpg);
     background: #f2f2d2;
 }
 
@@ -108,11 +107,15 @@ input[type=button], input[type=submit], input[type=reset] {
 .customers tr:hover {
     background-color: #ddd;
     transform: scale(1.0125);
+    border-radius: 8px !important;
+    -moz-border-radius: 8px !important;
 }
 
 .customers thead:hover {
     transform: scale(1);
     background-color:#4CAF50;
+    border-radius: 8px !important;
+    -moz-border-radius: 8px !important;
 }
 
 .customers thead {
@@ -177,13 +180,6 @@ input[type=button], input[type=submit], input[type=reset] {
 .topnav a.active {
   background-color: #4CAF50;
   color: white;
-}
-
-.user_name{
-    text-align:left;
-    font-size: 17px;
-    font-family:"Comic Sans MS", cursive, sans-serif;
-    color:#000000;
 }
 
 /* Styling for checkboxes: */
